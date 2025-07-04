@@ -1,0 +1,422 @@
+:root {
+    --primary-bg: #0f172a;
+    --card-bg: #1e293b;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --card-radius: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: var(--text-primary);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.analytics-app {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+}
+
+.app-header {
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.app-title {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.main-content {
+    padding: 24px;
+    min-height: 300px;
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.settings-section h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.market-tabs {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.market-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.market-tab.active {
+    background-color: var(--accent-blue);
+    color: white;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.modern-select {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+.modern-select option {
+    background-color: #1e293b;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+.modern-select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.modern-select option:checked {
+    background-color: var(--accent-blue);
+    color: white;
+    font-weight: 600;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, var(--accent-purple), var(--accent-blue));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4);
+}
+
+.primary-btn:disabled {
+    background: #4b5563;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.signal-section {
+    padding: 20px 24px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-color);
+    min-height: 260px;
+}
+
+.signal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.signal-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent-blue);
+    letter-spacing: 0.5px;
+}
+
+.signal-time {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+.signal-display-container {
+    position: relative;
+    min-height: 150px;
+}
+
+.signal-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.signal-pair {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.signal-action {
+    font-size: 40px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 10px 0;
+    position: relative;
+    display: inline-block;
+    padding: 0 20px;
+    color: var(--text-secondary);
+}
+
+.signal-action.buy {
+    color: var(--accent-green);
+    text-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.signal-action.sell {
+    color: var(--accent-red);
+    text-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.signal-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.signal-loading .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 90%;
+    padding: 0;
+}
+
+.signal-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(59, 130, 246, 0.2);
+    border-top: 3px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.signal-loading h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 10px;
+}
+
+.signal-loading p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cooldown-timer {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.timer-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.timer-value {
+    font-size: 24px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-amber);
+}
+
+.app-footer {
+    padding: 16px 24px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid var(--border-color);
+}
+
+.copyright {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.5;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 16px 20px;
+    }
+    
+    .signal-section {
+        padding: 16px 20px;
+        min-height: 240px;
+    }
+    
+    .signal-pair {
+        font-size: 22px;
+    }
+    
+    .signal-action {
+        font-size: 36px;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+    
+    .settings-section {
+        gap: 20px;
+    }
+    
+    .timer-value {
+        font-size: 22px;
+    }
+    
+    .modern-select, .primary-btn {
+        padding: 14px;
+    }
+    
+    .signal-loading .spinner {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .signal-loading h3 {
+        font-size: 16px;
+    }
+    
+    .signal-loading p {
+        font-size: 13px;
+    }
+    
+    .signal-display-container {
+        min-height: 140px;
+    }
+}
+
+.primary-btn.timer {
+    background: linear-gradient(to right, #f59e0b, #fbbf24);
+}
+
+.primary-btn.timer:hover {
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}

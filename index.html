@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTPO | Trading Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="analytics-app">
+        <div class="app-header">
+            <div class="logo">
+                <h1>GTPO</h1>
+            </div>
+            <div class="app-title">Trading Analytics</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="settings-section active">
+                <h2>Settings</h2>
+                
+                <div class="market-tabs">
+                    <button class="market-tab active" data-market="standard">Standard</button>
+                    <button class="market-tab" data-market="otc">OTC</button>
+                </div>
+                
+                <div class="input-group">
+                    <label>Currencies</label>
+                    <select id="currency-pair" class="modern-select">
+                        <!-- Options will be populated by JS -->
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label>Time</label>
+                    <select id="timeframe" class="modern-select">
+                        <option>5 seconds</option>
+                        <option>15 seconds</option>
+                        <option>30 seconds</option>
+                        <option>1 minute</option>
+                        <option>3 minutes</option>
+                    </select>
+                </div>
+                
+                <button id="get-signal-btn" class="primary-btn">Get Signal</button>
+            </div>
+        </div>
+        
+        <div class="signal-section">
+            <div class="signal-header">
+                <div class="signal-label">Signal</div>
+                <div class="signal-time" id="signal-timestamp">--:--:--</div>
+            </div>
+            
+            <div class="signal-display-container">
+                <div class="signal-content" id="signal-content">
+                    <div class="signal-pair" id="signal-pair">--</div>
+                    <div class="signal-action" id="signal-action">--</div>
+                </div>
+                
+                <div class="signal-loading" id="signal-loading">
+                    <div class="loading-content">
+                        <div class="spinner"></div>
+                        <h3>Analyzing market data...</h3>
+                        <p>Our algorithm is processing your request</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cooldown-timer">
+                <div class="timer-label">Next signal available in:</div>
+                <div class="timer-value" id="cooldown-timer">--:--</div>
+            </div>
+        </div>
+        
+        <div class="app-footer">
+            <div class="footer-content">
+                <div class="copyright">© 2025 GTPO - Professional Trading Analytics</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
