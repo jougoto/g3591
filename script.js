@@ -19,7 +19,8 @@ const elements = {
     currencyPair: document.getElementById('currency-pair'),
     timeframe: document.getElementById('timeframe'),
     signalContent: document.getElementById('signal-content'),
-    signalLoading: document.getElementById('signal-loading')
+    signalLoading: document.getElementById('signal-loading'),
+    marketClosedMessage: document.getElementById('market-closed-message')
 };
 
 // Списки инструментов
@@ -67,6 +68,48 @@ const timeframes = {
     ]
 };
 
+// Расписание бирж (время UTC)
+const marketSchedule = {
+    // Азиатские биржи
+    asia: {
+        TSE: { open: 0, close: 6 },   // Tokyo: 9:00 JST = UTC+9 -> 00:00 UTC
+        SSE: { open: 1.5, close: 7.5 }, // Shanghai: 9:30 CST = UTC+8 -> 01:30 UTC
+        HKEX: { open: 1.5, close: 7.5 } // Hong Kong: 9:30 HKT = UTC+8 -> 01:30 UTC
+    },
+    // Европейские биржи
+    europe: {
+        LSE: { open: 8, close: 16.5 },   // London: 8:00 GMT = 08:00 UTC
+        Deutsche: { open: 8, close: 16.5 }, // Frankfurt: 9:00 CET = UTC+1 -> 08:00 UTC
+        Euronext: { open: 8, close: 16.5 }  // Paris: 9:00 CET = UTC+1 -> 08:00 UTC
+    },
+    // Американские биржи
+    america: {
+        NYSE: { open: 14.5, close: 21 }, // New York: 9:30 EST = UTC-5 -> 14:30 UTC
+        NASDAQ: { open: 14.5, close: 21 } // NASDAQ: 9:30 EST = UTC-5 -> 14:30 UTC
+    }
+};
+
+// Проверка, открыт ли рынок для обычных пар
+function isMarketOpen() {
+    const now = new Date();
+    const utcHours = now.getUTCHours() + now.getUTCMinutes() / 60;
+    const utcDay = now.getUTCDay(); // 0 - воскресенье, 6 - суббота
+    
+    // Проверка выходных
+    if (utcDay === 0 || utcDay === 6) return false;
+    
+    // Проверка торговых сессий
+    for (const region of Object.values(marketSchedule)) {
+        for (const exchange of Object.values(region)) {
+            if (utcHours >= exchange.open && utcHours < exchange.close) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
     elements.getSignalBtn.addEventListener('click', startSignalProcess);
@@ -74,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.currencyPair.addEventListener('change', (e) => {
         state.currentPair = e.target.value;
         updateCooldownDisplay();
+        updateMarketStatus();
     });
     
     elements.timeframe.addEventListener('change', (e) => {
@@ -91,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateInstruments(state.currentMarket);
             updateTimeframes(state.currentMarket);
             updateCooldownDisplay();
+            updateMarketStatus();
         });
     });
     
@@ -101,12 +146,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.market-tab[data-market="otc"]').classList.remove('active');
     
     resetSignalDisplay();
+    updateMarketStatus();
     
-    // Запускаем интервал для обновления таймеров
+    // Запускаем интервал для обновления
     state.cooldownInterval = setInterval(() => {
         updateCooldownDisplay();
+        updateMarketStatus();
     }, 1000);
 });
+
+// Обновить статус рынка (открыт/закрыт)
+function updateMarketStatus() {
+    const isClosed = state.currentMarket === 'standard' && !isMarketOpen();
+    
+    if (isClosed) {
+        elements.getSignalBtn.disabled = true;
+        elements.getSignalBtn.textContent = 'Market Closed';
+        elements.marketClosedMessage.style.display = 'flex';
+        elements.cooldownTimer.textContent = '--:--';
+    } else {
+        elements.marketClosedMessage.style.display = 'none';
+        updateCooldownDisplay();
+    }
+}
 
 // Обновить список таймфреймов
 function updateTimeframes(market) {
@@ -135,6 +197,11 @@ function updateTimeframes(market) {
 
 // Начать процесс получения сигнала
 function startSignalProcess() {
+    // Проверяем, закрыт ли рынок
+    if (state.currentMarket === 'standard' && !isMarketOpen()) {
+        return;
+    }
+    
     const key = getCurrentKey();
     
     if (isOnCooldown(key)) {
@@ -176,6 +243,11 @@ function startCooldown(key) {
 
 // Обновить отображение cooldown
 function updateCooldownDisplay() {
+    // Если рынок закрыт, не обновляем
+    if (state.currentMarket === 'standard' && !isMarketOpen()) {
+        return;
+    }
+    
     const key = getCurrentKey();
     const cooldownEnd = state.cooldowns[key];
     const now = Date.now();
