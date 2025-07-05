@@ -420,3 +420,35 @@ body {
     box-shadow: none;
     cursor: not-allowed;
 }
+
+/* Сообщение о закрытости рынка */
+.market-closed-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(239, 68, 68, 0.15);
+    border-radius: 12px;
+    margin-top: 15px;
+    border: 1px solid var(--accent-red);
+}
+
+.warning-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.warning-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-red);
+}
+
+@media (max-width: 480px) {
+    .market-closed-message {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
