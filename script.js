@@ -2,9 +2,9 @@
 const state = {
     currentScreen: 'settings',
     currentPair: 'EUR/USD',
-    currentTimeframe: '5 seconds',
+    currentTimeframe: '1 minute',
     currentMarket: 'standard',
-    cooldowns: {}, // Хранит cooldown для каждой комбинации пара/таймфрейм
+    cooldowns: {},
     cooldownInterval: null
 };
 
@@ -48,6 +48,25 @@ const instruments = {
     ]
 };
 
+// Доступные таймфреймы
+const timeframes = {
+    standard: [
+        "1 minute", 
+        "3 minutes", 
+        "30 minutes", 
+        "1 hour"
+    ],
+    otc: [
+        "5 seconds", 
+        "15 seconds", 
+        "30 seconds", 
+        "1 minute", 
+        "3 minutes", 
+        "30 minutes", 
+        "1 hour"
+    ]
+};
+
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
     elements.getSignalBtn.addEventListener('click', startSignalProcess);
@@ -70,11 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
             tab.classList.add('active');
             state.currentMarket = tab.dataset.market;
             updateInstruments(state.currentMarket);
+            updateTimeframes(state.currentMarket);
             updateCooldownDisplay();
         });
     });
     
+    // Инициализация
     updateInstruments('standard');
+    updateTimeframes('standard');
     document.querySelector('.market-tab[data-market="standard"]').classList.add('active');
     document.querySelector('.market-tab[data-market="otc"]').classList.remove('active');
     
@@ -86,38 +108,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 });
 
+// Обновить список таймфреймов
+function updateTimeframes(market) {
+    const tfList = timeframes[market];
+    const select = elements.timeframe;
+    
+    // Очищаем список
+    select.innerHTML = '';
+    
+    // Добавляем новые опции
+    tfList.forEach(tf => {
+        const option = document.createElement('option');
+        option.value = tf;
+        option.textContent = tf;
+        select.appendChild(option);
+    });
+    
+    // Устанавливаем текущий таймфрейм
+    if (tfList.includes(state.currentTimeframe)) {
+        select.value = state.currentTimeframe;
+    } else {
+        state.currentTimeframe = tfList[0];
+        select.value = tfList[0];
+    }
+}
+
 // Начать процесс получения сигнала
 function startSignalProcess() {
-    // Проверяем cooldown для текущей комбинации
     const key = getCurrentKey();
     
     if (isOnCooldown(key)) {
         return;
     }
     
-    // Устанавливаем время в сигнале
     elements.signalTimestamp.textContent = getCurrentTime();
-    
-    // Показываем индикатор загрузки
     showSignalLoading();
     
-    // Фиксированная задержка в 1 секунду для анализа
     setTimeout(() => {
-        // Генерация случайного сигнала
         const isBuy = Math.random() > 0.5;
         
-        // Обновляем секцию сигнала
         elements.signalPair.textContent = state.currentPair;
         elements.signalAction.textContent = isBuy ? 'Buy' : 'Sell';
         elements.signalAction.className = `signal-action ${isBuy ? 'buy' : 'sell'}`;
         
-        // Устанавливаем cooldown для этой комбинации
         startCooldown(key);
-        
-        // Сразу обновляем отображение таймера
         updateCooldownDisplay();
-        
-        // Скрываем индикатор загрузки
         hideSignalLoading();
     }, 1000);
 }
@@ -151,15 +186,12 @@ function updateCooldownDisplay() {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         
-        // Обновляем кнопку
         elements.getSignalBtn.textContent = `Get Signal (${seconds}s)`;
         elements.getSignalBtn.disabled = true;
         
-        // Обновляем таймер
         elements.cooldownTimer.textContent = 
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     } else {
-        // Если cooldown закончился
         elements.getSignalBtn.textContent = 'Get Signal';
         elements.getSignalBtn.disabled = false;
         elements.cooldownTimer.textContent = '--:--';
@@ -208,7 +240,11 @@ function parseTimeframe(timeframe) {
         return value * 60 * 1000;
     }
     
-    return 5000; // По умолчанию 5 секунд
+    if (timeframe.includes('hour')) {
+        return value * 60 * 60 * 1000;
+    }
+    
+    return 60000; // По умолчанию 1 минута
 }
 
 // Получить текущее время
