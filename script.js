@@ -36,18 +36,13 @@ const instruments = {
         "AUD/CHF", "NZD/JPY", "NZD/CHF"
     ],
     otc: [
-        "ZAR/USD OTC", "YER/USD OTC", "WTI Crude Oil OTC", "VIX OTC", 
-        "VISA OTC", "USD/VND OTC", "USD/THB OTC", "USD/SGD OTC", 
-        "USD/RUB OTC", "USD/PKR OTC", "USD/PHP OTC", 
-        "USD/MXN OTC", "USD/JPY OTC", "USD/INR OTC", "USD/IDR OTC", 
-        "USD/EGP OTC", "USD/DZD OTC", "USD/COP OTC", "USD/CNH OTC", 
-        "USD/CLP OTC", "USD/CHF OTC", "USD/CAD OTC", "USD/BRL OTC", 
-        "USD/BDT OTC", "USD/ARS OTC", "US100 OTC", "UAH/USD OTC", 
+        "EUR/USD OTC", "EUR/NZD OTC", "AUD/CAD OTC", "GBP/USD OTC", 
+        "AED/CNY OTC", "CHF/JPY OTC", "VISA OTC", "USD/RUB OTC", "GBP/JPY OTC",
+		"USD/PKR OTC", "GBP/JPY OTC", "AUD/NZD OTC", "EUR/CHF OTC",
+        "USD/CAD OTC", "USD/BRL OTC", "UAH/USD OTC", "CAD/JPY OTC",
         "Toncoin OTC", "Tesla OTC", "TRON OTC", "TND/USD OTC", 
         "Solana OTC", "Silver OTC", "SP500 OTC", "SAR/CNY OTC", 
-        "QAR/CNY OTC", "GBP/USD OTC", "EUR/GBP OTC", "EUR/JPY OTC", 
-        "GBP/JPY OTC", "AUD/NZD OTC", "CAD/JPY OTC", "CHF/JPY OTC", 
-        "EUR/CHF OTC", "AUD/CAD OTC", "AED/CNY OTC"
+        "QAR/CNY OTC", "EUR/GBP OTC", "EUR/JPY OTC"
     ]
 };
 
